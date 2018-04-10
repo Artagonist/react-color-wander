@@ -9,6 +9,8 @@
 # Usage
 
 ```javascript
+import Art from 'react-color-wander';
+
 <Art
   ref={ref => (this.art = ref)}
   maps={[require('./map.png')]}
@@ -35,6 +37,6 @@ this.art.metadata();
 
 ## Example
 
-[![Edit 0](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/0)
+[![Edit r1ywx7978m](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/r1ywx7978m)
 
 Available [here](https://github.com/sonaye/react-color-wander/tree/master/src/example).
