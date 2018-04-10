@@ -108,6 +108,8 @@ export default class Art extends Component {
     this.loop.stop();
   };
 
+  ref = () => this.canvas;
+
   data = () => this.canvas.toDataURL('image/png');
 
   metadata = () => {

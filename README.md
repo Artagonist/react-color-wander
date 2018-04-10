@@ -32,6 +32,9 @@ this.art.data();
 // to get some metadata
 this.art.metadata();
 
+// to get a ref. to the canvas
+this.art.ref();
+
 // hint: in Chrome, you can right-click the canvas and "Save As"
 ```
 

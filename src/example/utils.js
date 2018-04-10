@@ -3,18 +3,6 @@ import palettes from './palettes';
 export const getRandomPalette = () =>
   palettes[Math.floor(Math.random() * palettes.length)];
 
-export const downloadArt = (dataURL, seed) => {
-  const link = document.createElement('a');
-
-  link.setAttribute('download', `${seed}.png`);
-  link.setAttribute('href', encodeURI(dataURL));
-  link.setAttribute('target', '_blank');
-
-  link.click();
-
-  document.removeChild(link);
-};
-
 // invert color helpers
 const hexToComponents = hex =>
   /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

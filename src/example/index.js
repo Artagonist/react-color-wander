@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 
+import { saveAs } from 'file-saver';
+
 import maps from './maps';
 
 import Art from '../lib';
 
-import { getRandomPalette, downloadArt, invertColor } from './utils';
+import { getRandomPalette, invertColor } from './utils';
 
 import './example.css';
 
@@ -42,7 +44,9 @@ class Example extends Component {
   download = () => {
     this.stop();
 
-    downloadArt(this.art.data(), this.art.metadata().seed);
+    this.art
+      .ref()
+      .toBlob(blob => saveAs(blob, `${this.art.metadata().seed}.png`));
   };
 
   update = (i, color) => {
