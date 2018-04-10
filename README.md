@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/react-color-wander.svg)](https://badge.fury.io/js/react-color-wander)
 
+<img src="https://raw.githubusercontent.com/sonaye/react-color-wander/master/demos/528177.png" width="600">
+
 # Installation
 
 `yarn add react-color-wander`
@@ -39,6 +41,8 @@ this.art.ref();
 ```
 
 ## Example
+
+<img src="https://raw.githubusercontent.com/sonaye/react-color-wander/master/demos/example.gif" width="400">
 
 [![Edit r1ywx7978m](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/r1ywx7978m)
 
