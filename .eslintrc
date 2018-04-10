@@ -3,8 +3,11 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
+    "arrow-parens": 0,
     "comma-dangle": [2, "never"],
+    "global-require": 0,
     "import/no-extraneous-dependencies": 0,
+    "no-mixed-operators": 0,
     "react/jsx-filename-extension": 0
   }
 }
