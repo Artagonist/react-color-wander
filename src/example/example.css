@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.actions {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.palette {
+  margintop: 10px;
+  margin-left: 240px;
+}
+
+.actions,
+.more,
+.palette {
+  animation: fadein 0.5s;
+  animation-timing-function: ease;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+button,
+input {
+  border: none;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+  margin: 10px;
+  opacity: 0.75;
+  outline: 0;
+  padding: 10px;
+  transition: 0.25s ease;
+  width: 40px;
+}
+
+button:hover,
+input:hover {
+  opacity: 1;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+input {
+  width: 80px;
+}

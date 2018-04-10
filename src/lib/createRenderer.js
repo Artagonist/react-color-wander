@@ -4,8 +4,9 @@ import newArray from 'new-array';
 import SimplexNoise from 'simplex-noise';
 import vec2 from 'gl-vec2';
 
-import createRange from './createRange';
 import createPixels from './createPixels';
+import createRange from './createRange';
+import createSphere from './createSphere';
 
 export default (opt = {}) => {
   const randFunc = opt.random || Math.random;
@@ -34,22 +35,11 @@ export default (opt = {}) => {
   const heightMap = heightMapImage.data;
   let time = 0;
 
-  const randomSphere = (out, scale = 1.0) => {
-    const r = randFunc() * 2.0 * Math.PI;
-
-    const s = out;
-
-    s[0] = Math.cos(r) * scale;
-    s[1] = Math.sin(r) * scale;
-
-    return s;
-  };
-
   const resetParticle = (particle = {}) => {
     const p = particle;
     const scale = Math.min(width, height) / 2;
 
-    p.position = randomSphere([], random(0, scale * startArea));
+    p.position = createSphere([], random(0, scale * startArea), randFunc);
     p.position[0] += width / 2;
     p.position[1] += height / 2;
     p.radius = random(0.01, maxRadius);
@@ -69,7 +59,7 @@ export default (opt = {}) => {
   const particles = newArray(count).map(() => resetParticle());
 
   const clear = () => {
-    ctx.fillStyle = palette[Math.floor(random(palette.length))];
+    ctx.fillStyle = palette[0];
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
 
@@ -114,7 +104,6 @@ export default (opt = {}) => {
       ctx.lineJoin = opt.lineStyle || 'square';
       ctx.strokeStyle = p.color;
 
-      // ctx.strokeStyle = colorStyle(rgb.map(x => x * 255));
       ctx.globalAlpha = globalAlpha;
       ctx.stroke();
 

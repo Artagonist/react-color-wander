@@ -9,6 +9,28 @@
 # Usage
 
 ```javascript
+<Art
+  ref={ref => (this.art = ref)}
+  maps={[require('./map.png')]}
+  palettes={[['red,', 'green', 'blue']]}
+  // seed="259022"
+  // height={600} // default = innerHeight
+  // width={800} // default = innerWidth
+/>;
+
+// to start drawing
+this.art.draw();
+
+// to stop drawing
+this.art.stop();
+
+// to get drawing dataURL (image/png)
+this.art.data();
+
+// to get some metadata
+this.art.metadata();
+
+// hint: in Chrome, you can right-click the canvas and "Save As"
 ```
 
 ## Example

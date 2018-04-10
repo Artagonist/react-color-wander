@@ -3,19 +3,18 @@ import seedRandom from 'seed-random';
 import createPalette from './createPalette';
 import createRange from './createRange';
 
-import maps from '../example/maps';
-import palettes from '../example/palettes';
-
-export default (seed = String(Math.floor(Math.random() * 1000000))) => {
-  // eslint-disable-next-line
-  console.log('seed:', seed);
-
+export default ({
+  seed = String(Math.floor(Math.random() * 1000000)),
+  height,
+  width,
+  factor = 0.5,
+  maps,
+  palettes
+}) => {
   const randomFunc = seedRandom(seed);
   const random = createRange(randomFunc);
 
   const mapSrc = maps[Math.floor(random(maps.length))];
-  // eslint-disable-next-line
-  console.log('map:', mapSrc);
 
   return {
     // rendering opts
@@ -39,9 +38,9 @@ export default (seed = String(Math.floor(Math.random() * 1000000))) => {
     debugLuma: false,
 
     // browser options
-    height: window.innerHeight * 2,
+    height: height / factor,
     palette: createPalette(palettes, random),
     pixelRatio: 1,
-    width: window.innerWidth * 2
+    width: width / factor
   };
 };
