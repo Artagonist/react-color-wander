@@ -2,7 +2,7 @@ require('fastclick')(document.body);
 
 var assign = require('object-assign');
 var createConfig = require('./config');
-var createRenderer = require('./lib/createRenderer');
+var createRenderer = require('./createRenderer');
 var createLoop = require('raf-loop');
 var contrast = require('wcag-contrast');
 
@@ -16,7 +16,8 @@ var seedText = document.querySelector('.seed-text');
 
 var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
 
-if (isIOS) { // iOS bugs with full screen ...
+if (isIOS) {
+  // iOS bugs with full screen ...
   const fixScroll = () => {
     setTimeout(() => {
       window.scrollTo(0, 1);
@@ -24,9 +25,13 @@ if (isIOS) { // iOS bugs with full screen ...
   };
 
   fixScroll();
-  window.addEventListener('orientationchange', () => {
-    fixScroll();
-  }, false);
+  window.addEventListener(
+    'orientationchange',
+    () => {
+      fixScroll();
+    },
+    false
+  );
 }
 
 window.addEventListener('resize', resize);
@@ -34,15 +39,15 @@ document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
 canvas.style.position = 'absolute';
 
-var randomize = (ev) => {
+var randomize = ev => {
   if (ev) ev.preventDefault();
   reload(createConfig());
 };
 randomize();
 resize();
 
-const addEvents = (element) => {
-  element.addEventListener('mousedown', (ev) => {
+const addEvents = element => {
+  element.addEventListener('mousedown', ev => {
     if (ev.button === 0) {
       randomize(ev);
     }
@@ -50,24 +55,30 @@ const addEvents = (element) => {
   element.addEventListener('touchstart', randomize);
 };
 
-const targets = [ document.querySelector('#fill'), canvas ];
+const targets = [document.querySelector('#fill'), canvas];
 targets.forEach(t => addEvents(t));
 
-function reload (config) {
+function reload(config) {
   loop.removeAllListeners('tick');
   loop.stop();
 
-  var opts = assign({
-    backgroundImage: background,
-    context: context
-  }, config);
+  var opts = assign(
+    {
+      backgroundImage: background,
+      context: context
+    },
+    config
+  );
 
   var pixelRatio = typeof opts.pixelRatio === 'number' ? opts.pixelRatio : 1;
   canvas.width = opts.width * pixelRatio;
   canvas.height = opts.height * pixelRatio;
 
   document.body.style.background = opts.palette[0];
-  seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
+  seedContainer.style.color = getBestContrast(
+    opts.palette[0],
+    opts.palette.slice(1)
+  );
   seedText.textContent = opts.seedName;
 
   background.onload = () => {
@@ -92,11 +103,11 @@ function reload (config) {
   background.src = config.backgroundSrc;
 }
 
-function resize () {
-  letterbox(canvas, [ window.innerWidth, window.innerHeight ]);
+function resize() {
+  letterbox(canvas, [window.innerWidth, window.innerHeight]);
 }
 
-function getBestContrast (background, colors) {
+function getBestContrast(background, colors) {
   var bestContrastIdx = 0;
   var bestContrast = 0;
   colors.forEach((p, i) => {
@@ -110,7 +121,7 @@ function getBestContrast (background, colors) {
 }
 
 // resize and reposition canvas to form a letterbox view
-function letterbox (element, parent) {
+function letterbox(element, parent) {
   var aspect = element.width / element.height;
   var pwidth = parent[0];
   var pheight = parent[1];
@@ -119,7 +130,8 @@ function letterbox (element, parent) {
   var height = Math.round(width / aspect);
   var y = Math.floor(pheight - height) / 2;
 
-  if (isIOS) { // Stupid iOS bug with full screen nav bars
+  if (isIOS) {
+    // Stupid iOS bug with full screen nav bars
     width += 1;
     height += 1;
   }

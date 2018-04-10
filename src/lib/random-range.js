@@ -1,5 +1,5 @@
-module.exports = function (randFunc) {
-  return function random (min, max) {
+module.exports = function(randFunc) {
+  return function random(min, max) {
     if (typeof min === 'undefined') {
       min = 1;
     }

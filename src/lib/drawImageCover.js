@@ -1,7 +1,7 @@
 // fits the PIXI.Sprite to the parent
 // similar to CSS background-size: cover
 module.exports = drawImageCover;
-function drawImageCover (ctx, image, parent, scale) {
+function drawImageCover(ctx, image, parent, scale) {
   scale = typeof scale === 'number' ? scale : 1;
   parent = typeof parent === 'undefined' ? ctx.canvas : parent;
 

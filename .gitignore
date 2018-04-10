@@ -1,9 +1,5 @@
-bower_components
-node_modules
-*.log
-.DS_Store
-bundle.js
-good/
-output/*.png
-output/*.jpg
-video/
+dist/
+node_modules/
+yarn-debug.log*
+yarn-error.log*
+yarn.lock

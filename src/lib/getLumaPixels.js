@@ -3,7 +3,7 @@ var luminance = require('color-luminance');
 var drawImageCover = require('./drawImageCover');
 
 module.exports = getLumaPixels;
-function getLumaPixels (ctx, img, opt) {
+function getLumaPixels(ctx, img, opt) {
   var canvas = ctx.canvas;
   var scale = typeof opt.scale === 'number' ? opt.scale : 1;
   var threshold = Array.isArray(opt.threshold) ? opt.threshold : null;
