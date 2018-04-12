@@ -2,7 +2,26 @@
 
 [![npm version](https://badge.fury.io/js/react-color-wander.svg)](https://badge.fury.io/js/react-color-wander)
 
-<img src="https://raw.githubusercontent.com/sonaye/react-color-wander/master/demos/528177.png" width="600">
+<img src="https://raw.githubusercontent.com/sonaye/react-color-wander/master/demo.gif" width="400">
+
+# Live Demo
+
+You can view the algorithm in real-time here:
+
+https://sonaye.github.io/react-color-wander
+
+In Chrome, you can right-click the canvas an "Save As" to get the full resolution.
+
+# Output
+
+Here are a few examples.
+
+<img src="http://i.imgur.com/VU7G4LX.jpg" width="85%" />
+<img src="http://i.imgur.com/ooYrDUW.jpg" width="85%" />
+<img src="http://i.imgur.com/dTb32La.jpg" width="85%" />
+<img src="http://i.imgur.com/IrZGveh.jpg" width="85%" />
+<img src="http://i.imgur.com/TyI4sQX.jpg" width="85%" />
+<img src="http://i.imgur.com/5QRD3Ps.jpg" width="85%" />
 
 # Installation
 
@@ -15,8 +34,8 @@ import Art from 'react-color-wander';
 
 <Art
   ref={ref => (this.art = ref)}
-  maps={[require('./map.png')]}
-  palettes={[['red,', 'green', 'blue']]}
+  map={require('./map.png')}
+  palette={['red,', 'green', 'blue']}
   // seed="259022"
   // height={600} // default = innerHeight
   // width={800} // default = innerWidth
@@ -36,14 +55,8 @@ this.art.metadata();
 
 // to get a ref. to the canvas
 this.art.ref();
-
-// hint: in Chrome, you can right-click the canvas and "Save As"
 ```
 
 ## Example
-
-<img src="https://raw.githubusercontent.com/sonaye/react-color-wander/master/demos/example.gif" width="400">
-
-[![Edit r1ywx7978m](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/r1ywx7978m)
 
 Available [here](https://github.com/sonaye/react-color-wander/tree/master/src/example).

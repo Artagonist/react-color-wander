@@ -1,4 +1,15 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+}
+
 body {
+  background-color: #fafafa;
   margin: 0;
   padding: 0;
 }
@@ -10,7 +21,6 @@ body {
 }
 
 .palette {
-  margintop: 10px;
   margin-left: 240px;
 }
 
@@ -32,15 +42,22 @@ body {
 
 button,
 input {
-  border: none;
+  border-radius: 0 !important;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
-  margin-bottom: 0;
-  margin: 10px;
+  height: 40px !important;
+  margin: 10px !important;
   opacity: 0.75;
-  outline: 0;
-  padding: 10px;
   transition: 0.25s ease;
-  width: 40px;
+}
+
+input {
+  border: none;
+  font-family: 'Open Sans';
+  outline: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  width: 60px;
 }
 
 button:hover,
@@ -49,17 +66,23 @@ input:hover {
 }
 
 button {
+  background-color: #fff !important;
   cursor: pointer;
+  max-width: 40px !important;
+  min-width: 40px !important;
 }
 
-button:hover {
-  transform: translateY(-2px);
+.container {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
 }
 
-button:active {
-  transform: translateY(2px);
+.canvas {
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
-input {
-  width: 80px;
+.icon {
+  width: 16px !important;
 }

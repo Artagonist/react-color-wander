@@ -1,7 +1,10 @@
+import maps from './maps';
 import palettes from './palettes';
 
-export const getRandomPalette = () =>
-  palettes[Math.floor(Math.random() * palettes.length)];
+export const getRandom = () => ({
+  map: maps[Math.floor(Math.random() * maps.length)],
+  palette: palettes[Math.floor(Math.random() * palettes.length)]
+});
 
 // invert color helpers
 const hexToComponents = hex =>

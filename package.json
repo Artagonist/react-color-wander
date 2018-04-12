@@ -2,13 +2,14 @@
   "license": "MIT",
   "name": "react-color-wander",
   "description": "Generative art with React.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sonaye/react-color-wander.git"
   },
   "devDependencies": {
+    "@material-ui/icons": "1.0.0-beta.42",
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.2",
     "babel-preset-es2015": "6.24.1",
@@ -20,6 +21,7 @@
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.7.0",
     "file-saver": "1.3.8",
+    "material-ui": "1.0.0-beta.41",
     "react": "16.3.1",
     "react-dom": "16.3.1",
     "react-scripts": "1.1.4"
@@ -28,22 +30,19 @@
     "start": "react-scripts start",
     "lint": "eslint .",
     "prebuild": "rm -rf dist",
-    "build": "NODE_ENV=production babel src/lib --out-dir dist"
+    "build": "NODE_ENV=production babel src/lib --out-dir dist",
+    "prehosting": "rm -rf docs",
+    "hosting": "react-scripts build",
+    "posthosting": "mv build docs"
   },
   "babel": {
-    "presets": [
-      "es2015",
-      "react",
-      "stage-0"
-    ]
+    "presets": ["es2015", "react", "stage-0"]
   },
   "prettier": {
     "singleQuote": true,
     "jsxBracketSameLine": true
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "clamp": "1.0.1",
     "color-luminance": "2.1.0",
@@ -55,5 +54,6 @@
     "seed-random": "2.2.0",
     "simplex-noise": "2.4.0",
     "smoothstep": "1.0.1"
-  }
+  },
+  "homepage": "https://sonaye.github.io/react-color-wander"
 }

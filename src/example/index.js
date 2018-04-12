@@ -1,45 +1,72 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
 import { saveAs } from 'file-saver';
 
-import maps from './maps';
+import Button from 'material-ui/Button';
+import Paper from 'material-ui/Paper';
+
+// import InputIcon from '@material-ui/icons/Input';
+// import UploadIcon from '@material-ui/icons/Photo';
+import ActionsIcon from '@material-ui/icons/Settings';
+import Check from '@material-ui/icons/Check';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
+import CustomizeIcon from '@material-ui/icons/FormatColorFill';
+import DownloadIcon from '@material-ui/icons/FileDownload';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import RandomizeIcon from '@material-ui/icons/Shuffle';
+import StopIcon from '@material-ui/icons/Pause';
 
 import Art from '../lib';
 
-import { getRandomPalette, invertColor } from './utils';
+import { getRandom, invertColor } from './utils';
 
 import './example.css';
 
 class Example extends Component {
   state = {
+    actions: false,
     custom: false,
-    more: false,
-    palette: ['#21242b', '#61dafb', '#6d6d6d', '#292c34', '#fff']
+    full: false,
+    map: getRandom().map,
+    palette: ['#21242b', '#61dafb', '#6d6d6d', '#292c34', '#fff'],
+    stopped: false
   };
 
   componentDidMount() {
     this.draw();
   }
 
+  actions = () => this.setState({ more: !this.state.actions });
+
   draw = () => {
     // just a trick for a smooth transition when re-drawing
-    if (this.art.metadata().palette) {
+    if (this.art.metadata().palette)
       document.body.style.background = this.art.metadata().palette[0];
-    }
 
     this.art.draw();
-    console.log(this.art.metadata());
-    this.setState({ palette: this.art.metadata().palette });
+
+    this.setState({ palette: this.art.metadata().palette, stopped: false });
   };
 
-  stop = () => this.art.stop();
+  randomize = () => {
+    const random = getRandom();
 
-  randomize = () =>
-    this.setState({ palette: getRandomPalette() }, () => this.draw());
+    this.setState({ map: random.map, palette: random.palette }, () =>
+      this.draw()
+    );
+  };
+
+  stop = () => {
+    this.art.stop();
+
+    this.setState({ stopped: true });
+  };
 
   customize = () => this.setState({ custom: !this.state.custom });
 
-  show = () => this.setState({ more: !this.state.more });
+  apply = () => this.setState({ custom: false }, () => this.draw());
+
+  full = () => this.setState({ full: !this.state.full }, () => this.draw());
 
   download = () => {
     this.stop();
@@ -72,54 +99,88 @@ class Example extends Component {
   };
 
   render() {
+    const size = 400;
+
+    const icon = { className: 'icon' };
+
     return (
-      <Fragment>
-        <Art
-          ref={ref => (this.art = ref)}
-          {...{ maps }}
-          palettes={[this.state.palette]}
-          // seed="716680"
-          // height={600}
-          // width={800}
-        />
+      <div className="container">
+        {this.state.full ? (
+          <Art
+            map={this.state.map}
+            palette={this.state.palette}
+            ref={ref => (this.art = ref)}
+          />
+        ) : (
+          <Paper
+            className="canvas"
+            square
+            style={{ height: size, width: size }}>
+            <Art
+              height={size}
+              map={this.state.map}
+              palette={this.state.palette}
+              ref={ref => (this.art = ref)}
+              width={size}
+            />
+          </Paper>
+        )}
 
         <div className="actions">
           <div>
-            <button onClick={this.show}>
-              <i className="mdi mdi-wrench" />
-            </button>
+            <Button onClick={this.actions}>
+              <ActionsIcon {...icon} />
+            </Button>
 
             {this.state.more && (
               <span className="more">
-                <button onClick={this.draw}>
-                  <i className="mdi mdi-play" />
-                </button>
+                <Button onClick={this.randomize}>
+                  <RandomizeIcon {...icon} />
+                </Button>
 
-                <button onClick={this.stop}>
-                  <i className="mdi mdi-pause" />
-                </button>
+                <Button onClick={this.stop} disabled={this.state.stopped}>
+                  <StopIcon {...icon} />
+                </Button>
 
-                <button onClick={this.randomize}>
-                  <i className="mdi mdi-shuffle" />
-                </button>
+                <Button onClick={this.draw}>
+                  <ColorLensIcon {...icon} />
+                </Button>
 
-                <button onClick={this.customize}>
-                  <i className="mdi mdi-format-color-fill" />
-                </button>
+                <Button onClick={this.customize}>
+                  <CustomizeIcon {...icon} />
+                </Button>
 
-                <button onClick={this.download}>
-                  <i className="mdi mdi-download" />
-                </button>
+                {/* <Button onClick={this.input}>
+                  <InputIcon {...icon} />
+                </Button>
+
+                <Button onClick={this.upload}>
+                  <UploadIcon {...icon} />
+                </Button> */}
+
+                <Button onClick={this.full}>
+                  <FullscreenIcon {...icon} />
+                </Button>
+
+                <Button onClick={this.download}>
+                  <DownloadIcon {...icon} />
+                </Button>
               </span>
             )}
           </div>
 
           {this.state.more &&
             this.state.custom && (
-              <div className="palette">{this.renderPalette()}</div>
+              <div className="palette">
+                {this.renderPalette()}
+
+                <Button onClick={this.apply}>
+                  <Check {...icon} />
+                </Button>
+              </div>
             )}
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

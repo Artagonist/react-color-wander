@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 
-import PropTypes from 'prop-types';
-
 import createLoop from 'raf-loop';
+import PropTypes from 'prop-types';
 
 import createConfig from './createConfig';
 import createRenderer from './createRenderer';
 
 export default class Art extends Component {
   static propTypes = {
-    maps: PropTypes.arrayOf(PropTypes.string).isRequired,
-    palettes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    map: PropTypes.string.isRequired,
+    palette: PropTypes.arrayOf(PropTypes.string).isRequired,
     seed: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number
@@ -88,8 +87,8 @@ export default class Art extends Component {
 
   draw = () => {
     const config = createConfig({
-      maps: this.props.maps,
-      palettes: this.props.palettes,
+      maps: [this.props.map],
+      palettes: [this.props.palette],
       seed: this.props.seed,
       height: this.props.height,
       width: this.props.width
