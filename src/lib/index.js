@@ -103,9 +103,7 @@ export default class Art extends Component {
     this.palette = config.palette;
   };
 
-  stop = () => {
-    this.loop.stop();
-  };
+  stop = () => this.loop.stop();
 
   ref = () => this.canvas;
 

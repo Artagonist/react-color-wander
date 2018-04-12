@@ -5,11 +5,15 @@
   "rules": {
     "arrow-parens": 0,
     "comma-dangle": [2, "never"],
+    "curly": 0,
+    "function-paren-newline": 0,
     "global-require": 0,
     "import/no-extraneous-dependencies": 0,
+    "indent": 0,
     "no-console": 0,
     "no-mixed-operators": 0,
+    "no-return-assign": 0,
     "react/jsx-closing-bracket-location": 0,
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
   }
 }

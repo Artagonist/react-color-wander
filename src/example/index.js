@@ -1,24 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
+import Paper from 'material-ui/Paper';
+import styled from 'styled-components';
 import { saveAs } from 'file-saver';
 
-import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
-
-// import InputIcon from '@material-ui/icons/Input';
-// import UploadIcon from '@material-ui/icons/Photo';
-import ActionsIcon from '@material-ui/icons/Settings';
-import Check from '@material-ui/icons/Check';
-import ColorLensIcon from '@material-ui/icons/ColorLens';
-import CustomizeIcon from '@material-ui/icons/FormatColorFill';
-import DownloadIcon from '@material-ui/icons/FileDownload';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import RandomizeIcon from '@material-ui/icons/Shuffle';
-import StopIcon from '@material-ui/icons/Pause';
-
 import Art from '../lib';
+import IconBtn from './IconBtn';
+// import Fade, { FadeItem } from './Fade';
 
-import { getRandom, invertColor } from './utils';
+import { invert, getRandom } from './utils';
 
 import './example.css';
 
@@ -82,16 +72,41 @@ class Example extends Component {
     this.setState({ palette: newPallete });
   };
 
+  renderArt = () => {
+    if (this.state.full) {
+      return (
+        <Art
+          map={this.state.map}
+          palette={this.state.palette}
+          ref={ref => (this.art = ref)}
+        />
+      );
+    }
+
+    const size = 512;
+
+    return (
+      <Canvas {...{ size }}>
+        <Art
+          height={size}
+          map={this.state.map}
+          palette={this.state.palette}
+          ref={ref => (this.art = ref)}
+          width={size}
+        />
+      </Canvas>
+    );
+  };
+
   renderPalette = () => {
     if (!this.state.palette) return null;
 
     return this.state.palette.map((color, i) => (
-      <input
-        key={i}
+      <Input
         onChange={e => this.update(i, e.target.value)}
         style={{
           backgroundColor: this.state.palette[i],
-          color: invertColor(this.state.palette[i])
+          color: invert(this.state.palette[i])
         }}
         value={this.state.palette[i]}
       />
@@ -99,90 +114,82 @@ class Example extends Component {
   };
 
   render() {
-    const size = 400;
+    // <IconBtn name="Input" onClick={this.input} />
+    // <IconBtn name="Photo" onClick={this.upload} />
 
-    const icon = { className: 'icon' };
+    const { more, stopped, custom } = this.state;
 
     return (
-      <div className="container">
-        {this.state.full ? (
-          <Art
-            map={this.state.map}
-            palette={this.state.palette}
-            ref={ref => (this.art = ref)}
-          />
-        ) : (
-          <Paper
-            className="canvas"
-            square
-            style={{ height: size, width: size }}>
-            <Art
-              height={size}
-              map={this.state.map}
-              palette={this.state.palette}
-              ref={ref => (this.art = ref)}
-              width={size}
-            />
-          </Paper>
-        )}
+      <Container>
+        {this.renderArt()}
 
-        <div className="actions">
+        <Actions>
           <div>
-            <Button onClick={this.more}>
-              <ActionsIcon {...icon} />
-            </Button>
+            <IconBtn name="Settings" onClick={this.more} />
 
-            {this.state.more && (
-              <span className="more">
-                <Button onClick={this.randomize}>
-                  <RandomizeIcon {...icon} />
-                </Button>
-
-                <Button onClick={this.stop} disabled={this.state.stopped}>
-                  <StopIcon {...icon} />
-                </Button>
-
-                <Button onClick={this.draw}>
-                  <ColorLensIcon {...icon} />
-                </Button>
-
-                <Button onClick={this.customize}>
-                  <CustomizeIcon {...icon} />
-                </Button>
-
-                {/* <Button onClick={this.input}>
-                  <InputIcon {...icon} />
-                </Button>
-
-                <Button onClick={this.upload}>
-                  <UploadIcon {...icon} />
-                </Button> */}
-
-                <Button onClick={this.full}>
-                  <FullscreenIcon {...icon} />
-                </Button>
-
-                <Button onClick={this.download}>
-                  <DownloadIcon {...icon} />
-                </Button>
-              </span>
+            {more && (
+              <Fragment>
+                <IconBtn name="Shuffle" onClick={this.randomize} />
+                <IconBtn name="Pause" onClick={this.stop} disabled={stopped} />
+                <IconBtn name="ColorLens" onClick={this.draw} />
+                <IconBtn name="FormatColorFill" onClick={this.customize} />
+                <IconBtn name="Fullscreen" onClick={this.full} />
+                <IconBtn name="FileDownload" onClick={this.download} />
+              </Fragment>
             )}
           </div>
 
-          {this.state.more &&
-            this.state.custom && (
-              <div className="palette">
+          {more &&
+            custom && (
+              <Palette>
                 {this.renderPalette()}
 
-                <Button onClick={this.apply}>
-                  <Check {...icon} />
-                </Button>
-              </div>
+                <IconBtn name="Check" onClick={this.apply} />
+              </Palette>
             )}
-        </div>
-      </div>
+        </Actions>
+      </Container>
     );
   }
 }
+
+const Actions = styled.div`
+  left: 10px;
+  position: absolute;
+  top: 10px;
+`;
+
+const Palette = styled.div`
+  margin-left: 240px;
+`;
+
+const Canvas = styled(props => <Paper square {...props} />)`
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1) !important;
+  height: ${props => props.size}px;
+`;
+
+const Container = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+`;
+
+const Input = styled.input`
+  border: none;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+  font-family: 'Open Sans';
+  height: 40px;
+  margin: 10px;
+  opacity: 0.75;
+  outline: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  width: 60px;
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 export default Example;

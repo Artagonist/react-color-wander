@@ -18,7 +18,7 @@ const componentToHex = c => {
 const rgbToHex = (r, g, b) =>
   `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 
-export const invertColor = hex => {
+export const invert = hex => {
   const rgb = hexToComponents(hex);
 
   const { r, g, b } = rgb
