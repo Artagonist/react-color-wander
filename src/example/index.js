@@ -24,10 +24,10 @@ import './example.css';
 
 class Example extends Component {
   state = {
-    actions: false,
     custom: false,
     full: false,
     map: getRandom().map,
+    more: false,
     palette: ['#21242b', '#61dafb', '#6d6d6d', '#292c34', '#fff'],
     stopped: false
   };
@@ -36,7 +36,7 @@ class Example extends Component {
     this.draw();
   }
 
-  actions = () => this.setState({ more: !this.state.actions });
+  more = () => this.setState({ more: !this.state.more });
 
   draw = () => {
     // just a trick for a smooth transition when re-drawing
@@ -128,7 +128,7 @@ class Example extends Component {
 
         <div className="actions">
           <div>
-            <Button onClick={this.actions}>
+            <Button onClick={this.more}>
               <ActionsIcon {...icon} />
             </Button>
 
