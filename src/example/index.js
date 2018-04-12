@@ -6,7 +6,6 @@ import { saveAs } from 'file-saver';
 
 import Art from '../lib';
 import IconBtn from './IconBtn';
-// import Fade, { FadeItem } from './Fade';
 
 import { invert, getRandom } from './utils';
 
@@ -15,7 +14,8 @@ import './example.css';
 class Example extends Component {
   state = {
     custom: false,
-    full: false,
+    // start in full screen if mobile
+    full: window.matchMedia('(max-width: 767px)').matches,
     map: getRandom().map,
     more: false,
     palette: ['#21242b', '#61dafb', '#6d6d6d', '#292c34', '#fff'],
@@ -176,6 +176,7 @@ const Container = styled.div`
 `;
 
 const Input = styled.input`
+  border-radius: 0;
   border: none;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
   font-family: 'Open Sans';
