@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
+import Animated from 'react-animated-transitions';
 import Paper from 'material-ui/Paper';
 import styled from 'styled-components';
 import { saveAs } from 'file-saver';
@@ -19,12 +20,9 @@ class Example extends Component {
     map: getRandom().map,
     more: false,
     palette: ['#21242b', '#61dafb', '#6d6d6d', '#292c34', '#fff'],
-    stopped: false
+    stopped: false,
+    mounted: false
   };
-
-  componentDidMount() {
-    this.draw();
-  }
 
   more = () => this.setState({ more: !this.state.more });
 
@@ -72,13 +70,36 @@ class Example extends Component {
     this.setState({ palette: newPallete });
   };
 
+  link = ref => {
+    this.art = ref;
+
+    if (!this.state.mounted)
+      this.setState({ mounted: true }, () => this.draw());
+  };
+
   renderArt = () => {
+    // this.art = {
+    //   metadata: () => ({ palette: this.state.palette }),
+    //   draw: () => null,
+    //   stop: () => null
+    // };
+
+    // return (
+    //   <div
+    //     style={{
+    //       backgroundColor: this.state.palette[1], // #eee
+    //       height: 512,
+    //       width: 512
+    //     }}
+    //   />
+    // );
+
     if (this.state.full) {
       return (
         <Art
           map={this.state.map}
           palette={this.state.palette}
-          ref={ref => (this.art = ref)}
+          ref={this.link}
         />
       );
     }
@@ -91,7 +112,7 @@ class Example extends Component {
           height={size}
           map={this.state.map}
           palette={this.state.palette}
-          ref={ref => (this.art = ref)}
+          ref={this.link}
           width={size}
         />
       </Canvas>
@@ -120,35 +141,52 @@ class Example extends Component {
     const { more, stopped, custom } = this.state;
 
     return (
-      <Container>
-        {this.renderArt()}
+      <Animated>
+        <Container>
+          {this.renderArt()}
 
-        <Actions>
-          <div>
-            <IconBtn name="Settings" onClick={this.more} />
+          <Actions>
+            <Row>
+              <IconBtn name="Settings" onClick={this.more} />
 
-            {more && (
-              <Fragment>
-                <IconBtn name="Shuffle" onClick={this.randomize} />
-                <IconBtn name="Pause" onClick={this.stop} disabled={stopped} />
-                <IconBtn name="ColorLens" onClick={this.draw} />
-                <IconBtn name="FormatColorFill" onClick={this.customize} />
-                <IconBtn name="Fullscreen" onClick={this.full} />
-                <IconBtn name="FileDownload" onClick={this.download} />
-              </Fragment>
-            )}
-          </div>
+              <Animated items>
+                {more && (
+                  <Animated item>
+                    <div>
+                      <IconBtn name="Shuffle" onClick={this.randomize} />
+                      <IconBtn
+                        name="Pause"
+                        onClick={this.stop}
+                        disabled={stopped}
+                      />
+                      <IconBtn name="ColorLens" onClick={this.draw} />
+                      <IconBtn
+                        name="FormatColorFill"
+                        onClick={this.customize}
+                      />
+                      <IconBtn name="Fullscreen" onClick={this.full} />
+                      <IconBtn name="FileDownload" onClick={this.download} />
+                    </div>
+                  </Animated>
+                )}
+              </Animated>
+            </Row>
 
-          {more &&
-            custom && (
-              <Palette>
-                {this.renderPalette()}
+            <Animated items>
+              {more &&
+                custom && (
+                  <Animated item>
+                    <Palette>
+                      {this.renderPalette()}
 
-                <IconBtn name="Check" onClick={this.apply} />
-              </Palette>
-            )}
-        </Actions>
-      </Container>
+                      <IconBtn name="Check" onClick={this.apply} />
+                    </Palette>
+                  </Animated>
+                )}
+            </Animated>
+          </Actions>
+        </Container>
+      </Animated>
     );
   }
 }
@@ -191,6 +229,10 @@ const Input = styled.input`
   &:hover {
     opacity: 1;
   }
+`;
+
+const Row = styled.div`
+  display: flex;
 `;
 
 export default Example;
