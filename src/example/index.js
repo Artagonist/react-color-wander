@@ -160,7 +160,7 @@ class Example extends Component {
     const { more, custom } = this.state;
 
     return (
-      <Animated>
+      <Animated preset="scale">
         <Container>
           {this.renderArt()}
 
