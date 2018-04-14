@@ -12,11 +12,13 @@ import { invert, getRandom } from './utils';
 
 import './example.css';
 
+const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
 class Example extends Component {
   state = {
     custom: false,
     // start in full screen if mobile
-    full: window.matchMedia('(max-width: 767px)').matches,
+    full: isMobile,
     map: getRandom().map,
     more: false,
     palette: ['#21242b', '#61dafb', '#6d6d6d', '#292c34', '#fff'],
@@ -119,26 +121,43 @@ class Example extends Component {
     );
   };
 
+  renderActions = () => (
+    <div>
+      <IconBtn name="Shuffle" onClick={this.randomize} />
+      <IconBtn name="Pause" onClick={this.stop} disabled={this.state.stopped} />
+      <IconBtn name="ColorLens" onClick={this.draw} />
+      <IconBtn name="FormatColorFill" onClick={this.customize} />
+      {!isMobile && <IconBtn name="Fullscreen" onClick={this.full} />}
+      <IconBtn name="FileDownload" onClick={this.download} />
+    </div>
+  );
+
   renderPalette = () => {
     if (!this.state.palette) return null;
 
-    return this.state.palette.map((color, i) => (
-      <Input
-        onChange={e => this.update(i, e.target.value)}
-        style={{
-          backgroundColor: this.state.palette[i],
-          color: invert(this.state.palette[i])
-        }}
-        value={this.state.palette[i]}
-      />
-    ));
+    return (
+      <Palette>
+        {this.state.palette.map((color, i) => (
+          <Input
+            onChange={e => this.update(i, e.target.value)}
+            style={{
+              backgroundColor: this.state.palette[i],
+              color: invert(this.state.palette[i])
+            }}
+            value={this.state.palette[i]}
+          />
+        ))}
+
+        <IconBtn name="Check" onClick={this.apply} />
+      </Palette>
+    );
   };
 
   render() {
     // <IconBtn name="Input" onClick={this.input} />
     // <IconBtn name="Photo" onClick={this.upload} />
 
-    const { more, stopped, custom } = this.state;
+    const { more, custom } = this.state;
 
     return (
       <Animated>
@@ -150,39 +169,13 @@ class Example extends Component {
               <IconBtn name="Settings" onClick={this.more} />
 
               <Animated items>
-                {more && (
-                  <Animated item>
-                    <div>
-                      <IconBtn name="Shuffle" onClick={this.randomize} />
-                      <IconBtn
-                        name="Pause"
-                        onClick={this.stop}
-                        disabled={stopped}
-                      />
-                      <IconBtn name="ColorLens" onClick={this.draw} />
-                      <IconBtn
-                        name="FormatColorFill"
-                        onClick={this.customize}
-                      />
-                      <IconBtn name="Fullscreen" onClick={this.full} />
-                      <IconBtn name="FileDownload" onClick={this.download} />
-                    </div>
-                  </Animated>
-                )}
+                {more && <Animated item>{this.renderActions()}</Animated>}
               </Animated>
             </Row>
 
             <Animated items>
               {more &&
-                custom && (
-                  <Animated item>
-                    <Palette>
-                      {this.renderPalette()}
-
-                      <IconBtn name="Check" onClick={this.apply} />
-                    </Palette>
-                  </Animated>
-                )}
+                custom && <Animated item>{this.renderPalette()}</Animated>}
             </Animated>
           </Actions>
         </Container>
