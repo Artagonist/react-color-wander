@@ -194,7 +194,7 @@ const Palette = styled.div`
   margin-left: 240px;
 `;
 
-const Canvas = styled(props => <Paper square {...props} />)`
+const Canvas = styled(Paper).attrs({ square: true })`
   box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1) !important;
   height: ${props => props.size}px;
 `;
